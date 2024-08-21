@@ -1,3 +1,53 @@
+"""
+Author: Jack Bjorn
+Date: August 15, 2024
+
+Description:
+This script is designed to automate the interaction with Notepad by simulating 
+key presses to type random Python code into the Notepad application. It performs 
+the following tasks:
+- Launches Notepad and waits for it to be ready.
+- Types randomly generated Python code into the Notepad window.
+- Allows for clean exit via a hotkey (Shift + Alt + Ctrl + C) or Ctrl+C in the console.
+- Ensures the system does not sleep while the script is running.
+
+Libraries Used:
+- time: For delays and pauses.
+- pyautogui: For simulating mouse movements and key presses.
+- subprocess: For launching Notepad.
+- psutil: For process management and termination.
+- win32gui: For interacting with Windows GUI elements.
+- win32con: For Windows constants.
+- random: For generating random values.
+- ctypes: For interacting with low-level system functions.
+- signal: For handling interrupt signals.
+- sys: For system-specific parameters and functions.
+- keyboard: For monitoring hotkey presses.
+- win32api: For interacting with the Windows API.
+- win32process: For handling process-specific operations.
+- win32com.client: For COM object management (if needed in future extensions).
+
+To install the required libraries, create a `requirements.txt` file with the following content:
+pyautogui
+psutil
+pywin32
+keyboard
+
+Then, run:
+pip install -r requirements.txt
+
+To freeze your current environment's dependencies into a `requirements.txt` file, use:
+pip freeze > requirements.txt
+
+Usage:
+1. Run the script to start Notepad and begin typing random Python code.
+2. Use the hotkey 'Shift + Alt + Ctrl + C' to stop the script at any time.
+3. The script will cleanly close the Notepad window upon termination.
+
+Dependencies:
+Ensure you have the required libraries installed using the commands above.
+"""
+
 import time
 import pyautogui
 import subprocess
