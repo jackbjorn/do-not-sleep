@@ -9,6 +9,9 @@ import ctypes
 import signal
 import sys
 import keyboard
+import win32api
+import win32process
+import win32com.client
 
 # Constants for preventing sleep
 ES_CONTINUOUS = 0x80000000
@@ -40,6 +43,10 @@ VK_CODES = {
     '>': 0xBE, '?': 0xBF, ',': 0xBC, '.': 0xBE, '/': 0xBF, '~': 0xC0, '`': 0xC0
 }
 
+#global flag for the exit condition
+exit_flag = False
+hwnd = 0x0
+
 def send_key(key_code):
     # Simulate a physical key press and release
     ctypes.windll.user32.keybd_event(key_code, 0, 0, 0) # Key down
@@ -59,16 +66,12 @@ def signal_handler(sig, frame):
 
 def hotkey_handler():
     global exit_flag
-    print("Hotkey pressed. Exiting script.")
     exit_flag = True
-
-# def handle_hotkey():
-#     print("Hotkey pressed. Exiting script.")
-#     allow_sleep()
-#     sys.exit(0)
+    print("Hotkey pressed. Exiting script.")
+    sys.exit()
 
 def setup_hotkeys():
-    keyboard.add_hotkey('shift+alt+ctrl+c', handle_hotkey)
+    keyboard.add_hotkey('shift+alt+ctrl+c', hotkey_handler)
 
 def generate_import():
     """Generates random import statements."""
@@ -160,6 +163,8 @@ def is_notepad_running():
     return False
 
 def type_into_notepad(content):
+    global exit_flag
+    global hwnd
     # Start Notepad and wait for it to be ready
     subprocess.Popen(['notepad.exe'])
     time.sleep(2)
@@ -187,46 +192,45 @@ def type_into_notepad(content):
             vk_code = VK_CODES[char]
             send_key(vk_code)
             time.sleep(random.uniform(0.05, 0.15))
+            if exit_flag:
+                break
         time.sleep(random.uniform(0.01, 0.05))
 
+def close_notepad_window(hwnd):
+    try:
+        if hwnd:
+            print("Here")
+            _, pid = win32process.GetWindowThreadProcessId(hwnd)
+            process = psutil.Process(pid)
+            process.terminate()
+    except Exception as e:
+        print(f"Error: {e}")        
+    
 def main_loop():
     global exit_flag
     while not exit_flag:
         # Your main loop code here
-        # Example:
         # Generate and print 4000 lines of random Python code
         num_lines = 4000
         python_code = ""
         for _ in range(num_lines):
+            if exit_flag:
+                break
             python_code = python_code + str(generate_random_code()) + "\n"
         # Run the typing function
         type_into_notepad(python_code)
         # Exit if the flag is set
         if exit_flag:
             break
+    close_notepad_window(hwnd)
 
 if __name__ == '__main__':
     # Set up signal handler for Ctrl+C
     signal.signal(signal.SIGINT, signal_handler)
     
+    print(f"To exit the script, from anywhere press 'shift+alt+ctrl+c'")
     # Set up hotkey monitoring
     keyboard.add_hotkey('shift+alt+ctrl+c', hotkey_handler)
 
     # Run the main loop
     main_loop()
-    # # Set up signal handler for Ctrl+C
-    # signal.signal(signal.SIGINT, signal_handler)
-    
-    # # Set up hotkey monitoring
-    # keyboard.add_hotkey('shift+alt+ctrl+c', hotkey_handler)
-    
-    # # Generate and print 4000 lines of random Python code 
-    # num_lines = 4000
-    # python_code = "\n".join(str(generate_random_code()) for _ in range(num_lines))
-    
-    # # Run the typing function
-    # type_into_notepad(python_code)
-
-
-
-
