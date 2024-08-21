@@ -1,4 +1,3 @@
-```markdown
 # Notepad Automation Script
 
 ## Author
@@ -90,6 +89,3 @@ This script is provided as-is without any warranty. Use it at your own risk.
 
 ## Contact
 For any questions or issues, please contact the author.
-```
-
-This README provides a comprehensive overview of the script, including installation instructions, usage guidelines, and troubleshooting tips. It is designed to help users understand and use the script effectively.
