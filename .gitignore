@@ -3,3 +3,7 @@ Include/
 Scripts/
 bin/
 pyvenv.cfg
+build/
+dist/
+do-not-sleep-code-writer.spec
+.DS_Store
