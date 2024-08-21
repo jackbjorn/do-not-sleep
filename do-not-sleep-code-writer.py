@@ -249,7 +249,6 @@ def type_into_notepad(content):
 def close_notepad_window(hwnd):
     try:
         if hwnd:
-            print("Here")
             _, pid = win32process.GetWindowThreadProcessId(hwnd)
             process = psutil.Process(pid)
             process.terminate()
