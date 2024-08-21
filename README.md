@@ -137,7 +137,7 @@ To install and use PyInstaller to package your Python script into a standalone e
     - Sometimes, antivirus software may falsely flag executables created by PyInstaller. If this happens, you may need to add an exception in your antivirus settings.
 
 ## License
-This script is provided as-is without any warranty. Use it at your own risk.
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). For more information, please visit the [MIT License page](https://opensource.org/licenses/MIT).
 
 ## Contact
 For any questions or issues, please contact the author.
