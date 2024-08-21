@@ -8,6 +8,7 @@ import random
 import ctypes
 import signal
 import sys
+import keyboard
 
 # Constants for preventing sleep
 ES_CONTINUOUS = 0x80000000
@@ -55,6 +56,14 @@ def signal_handler(sig, frame):
     print("\nInterrupt received. Exiting script.")
     allow_sleep() # revert the sleep prevention
     sys.exit(0)
+
+def handle_hotkey():
+    print("Hotkey pressed. Exiting script.")
+    allow_sleep()
+    sys.exit(0)
+
+def setup_hotkeys():
+    keyboard.add_hotkey('shift+alt+ctrl+c', handle_hotkey)
 
 def generate_import():
     """Generates random import statements."""
@@ -108,14 +117,14 @@ def generate_conditional():
     """Generates random if-else blocks."""
     var_name = random.choice(var_names)
     return (f"if {var_name} {random.choice(operators[7:])} {random.randint(0, 10)}:\n"
-            f"    print('{var_name} is true')\n"
+            f"    print('Condition met')\n"
             f"else:\n"
-            f"    print('{var_name} is false')")
+            f"    print('Condition not met')")
 
 def generate_loop():
     """Generates random loops."""
-    var_name = random.choice(var_names)
-    return f"for {var_name} in range({random.randint(1, 10)}):\n    print({var_name})"
+    return (f"for i in range({random.randint(1, 10)}):\n"
+            f"    print(i)")
 
 def generate_try_except():
     """Generates random try-except blocks."""
@@ -178,6 +187,9 @@ def type_into_notepad(content):
 if __name__ == '__main__':
     # Set up signal handler for Ctrl+C
     signal.signal(signal.SIGINT, signal_handler)
+    
+    # Set up hotkey monitoring
+    setup_hotkeys()
     
     # Generate and print 4000 lines of random Python code 
     num_lines = 4000
